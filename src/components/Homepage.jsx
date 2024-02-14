@@ -61,6 +61,25 @@ export function Homepage(){
         
     }
 
+    function handleIncrement(element){
+        const isContained = cart.find((item) => item.id === element.id)
+        
+        if(isContained){
+            setCart(
+                cart.map((item) => {
+                    if(item.id === element.id){
+                        return {...item , quantity : item.quantity + 1}
+                    } else {
+                        return item
+                    }
+                })
+            )
+        } else {
+            setCart([ ...cart , {...element , quantity : 1}])
+        } 
+        
+    }
+
     function handleShowTotal(){
         const totalPrice = cart.reduce((a , item) => a + item.price * item.quantity , 0).toFixed(2)
         console.log(totalPrice);
@@ -86,7 +105,7 @@ export function Homepage(){
             </div>
             <div className="chart-container">
                 {cart.map((item)=>(
-                    <p key={item.id}>{item.title} x {item.quantity}<button onClick={() => handleDecrement(item)}> - </button></p>       
+                    <p key={item.id}>{item.title} x {item.quantity}<button onClick={() => handleDecrement(item)}> - </button> || <button onClick={() => handleIncrement(item)}> + </button></p>       
                 ))}
                 {cart.length > 0 ? <p>Total: €{total}</p> : <p>Selezionare un prodotto</p>}
                 <button onClick={handleReset}>Reset</button>
