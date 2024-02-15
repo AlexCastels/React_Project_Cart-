@@ -5,7 +5,7 @@ import { Cart, CartContext } from "../context/CartContext"
 export function Homepage(){
     
     const [products , setProducts] = useState([])
-    const {handleBtn , handleDecrement , handleIncrement , handleReset , handleShowTotal , cart , total} = useContext(CartContext)
+    const {handleBtn , handleDecrement , handleIncrement , handleReset , cart , total} = useContext(CartContext)
     
     async function getData(){
         try {
@@ -21,12 +21,7 @@ export function Homepage(){
     useEffect(()=>{
         getData()
     },[])
-
-    useEffect(()=>{  //usato per il log reale di chart e mostrare il totale ogni volta che chart viene modificato
-        console.log(cart)
-        handleShowTotal()
-    },[cart])
-    
+   
     return (
         <>
             <h1>E-Commerce</h1>

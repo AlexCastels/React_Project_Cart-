@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const CartContext = createContext()
 export function Cart({children}){
@@ -73,6 +73,11 @@ export function Cart({children}){
     function handleReset(){
         setCart([])
     }
+
+    useEffect(()=>{  //usato per il log reale di chart e mostrare il totale ogni volta che chart viene modificato
+        console.log(cart)
+        handleShowTotal()
+    },[cart])
 
     return (
         <CartContext.Provider value={{handleBtn , handleDecrement , handleIncrement , handleReset , handleShowTotal , cart , total}}>
