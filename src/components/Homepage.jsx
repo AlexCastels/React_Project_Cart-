@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Card } from "./Card"
+import { Cart, CartContext } from "../context/CartContext"
 
 export function Homepage(){
     
     const [products , setProducts] = useState([])
-    const [cart , setCart] = useState([])
-    const [total , setTotal] = useState(0)
+    const {handleBtn , handleDecrement , handleIncrement , handleReset , handleShowTotal , cart , total} = useContext(CartContext)
     
     async function getData(){
         try {
@@ -21,74 +21,6 @@ export function Homepage(){
     useEffect(()=>{
         getData()
     },[])
-
-    function handleBtn(element){
-        
-        const isContained = cart.find((item) => item.id === element.id) 
-        
-        if(isContained){
-            setCart(
-                cart.map((item) => {
-                    if(item.id === element.id){
-                        return {...item , quantity : item.quantity + 1}
-                    } else {
-                        return item
-                    }
-                })
-            )
-        } else {
-            setCart([ ...cart , {...element , quantity : 1}])
-        }  
-    }
-
-    function handleDecrement(element){
-        const isContained = cart.find((item) => item.id === element.id) 
-        
-        if(isContained.quantity === 1){
-            const removedElement = cart.filter((el) => el.id !== element.id )
-            setCart(removedElement)
-        } else {
-            setCart(
-                cart.map((item) => {
-                    if(item.id === element.id && item.quantity > 0){
-                        return {...item , quantity : item.quantity - 1}
-                    } else {
-                        return item
-                    }
-                })
-            )
-        }
-        
-    }
-
-    function handleIncrement(element){
-        const isContained = cart.find((item) => item.id === element.id)
-        
-        if(isContained){
-            setCart(
-                cart.map((item) => {
-                    if(item.id === element.id){
-                        return {...item , quantity : item.quantity + 1}
-                    } else {
-                        return item
-                    }
-                })
-            )
-        } else {
-            setCart([ ...cart , {...element , quantity : 1}])
-        } 
-        
-    }
-
-    function handleShowTotal(){
-        const totalPrice = cart.reduce((a , item) => a + item.price * item.quantity , 0).toFixed(2)
-        console.log(totalPrice);
-        setTotal(totalPrice)
-    }
-
-    function handleReset(){
-        setCart([])
-    }
 
     useEffect(()=>{  //usato per il log reale di chart e mostrare il totale ogni volta che chart viene modificato
         console.log(cart)

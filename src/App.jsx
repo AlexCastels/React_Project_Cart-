@@ -4,7 +4,9 @@ export function App(){
     
     return (
         <div className="main">
+            
             <Homepage/>
+            
         </div>
     )
 }
